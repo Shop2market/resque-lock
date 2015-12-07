@@ -24,7 +24,6 @@ module Resque
     end
 
     # competitive lock
-
     def _extra_locks_list_options options = {}
       if self.respond_to? :extra_locks_list_options
         begin
