@@ -1,10 +1,11 @@
 require 'test_helper'
 
-class TestLockedJob < Resque::JobWithStatus
+class TestLockedJob
+  include Resque::Plugins::Status
   extend Resque::Lock
   @queue = :test
 
-  def self.perform
+  def perform
   end
 end
 
@@ -96,9 +97,24 @@ class TestResqueLock < Minitest::Test
           assert TestLockedJob.locked?( @options )
           assert !TestExtraLockedJob.locked?( @options )
           assert @status2["status"] == "queued"
-          assert @status == @status2
+          assert_equal @status, @status2
           assert @uuid == @uuid2
         end
+      end
+    end
+    describe 'on inline' do
+      before do
+        @options = { :arrg1 => 1 }
+        Resque.inline = true
+        $release_worker = true
+        @uuid    = TestLockedJob.create(@options)
+        @status  = Resque::Plugins::Status::Hash.get( @uuid )
+        Resque.inline = false
+      end
+      it "executes job inline and updates status" do
+        assert_equal "completed", @status["status"]
+        assert !TestExtraLockedJob.locked?( @options )
+        assert !TestLockedJob.locked?( @options )
       end
     end
   end

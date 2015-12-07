@@ -76,7 +76,7 @@ module Resque
       uuid = lock_uuid( options )
       if uuid.nil? || uuid.empty?
         uuid = super(klass, options)
-        Resque.redis.set( lock_key( options ), uuid )
+        Resque.redis.set( lock_key( options ), uuid ) unless Resque.inline
       end
       uuid
     end
