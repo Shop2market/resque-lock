@@ -17,20 +17,20 @@
     <% @locks.each do |lock| %>
       <tr>
         <td>
-          <%= lock %>  
+          <%= lock %>
         </td>
         <td>
-          <%= Resque.redis.get( lock ) %>  
+          <%= Resque.redis.get( lock ) %>
         </td>
         <td>
-          <%= Resque::Status.get( Resque.redis.get( lock ) ).inspect %>  
+          <%= Resque::Plugins::Status::Hash.get( Resque.redis.get( lock ) ).inspect %>  
         </td>
         <td>
           <a href="<%= u(:locks) %>/<%= ::CGI::escape(lock) %>/kill" class="kill">Unlock</a>
-        </td>      
-      </tr>      
+        </td>
+      </tr>
     <% end %>
-  <% else %>  
+  <% else %>
   <tr>
     <td colspan="7" class='no-data'>No Locks right now...</td>
   </tr>
@@ -39,7 +39,7 @@
 
 <script type="text/javascript" charset="utf-8">
   jQuery(function($) {
-    
+
     $('a.kill').click(function(e) {
       e.preventDefault();
       var $link = $(this),
@@ -58,6 +58,6 @@
         return false
       }
     });
-    
+
   });
 </script>
