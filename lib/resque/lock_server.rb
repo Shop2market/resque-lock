@@ -3,7 +3,7 @@
 require "cgi"
 
 module Resque
-  module Server
+  module LockServer
 
     VIEW_PATH = File.join(File.dirname(__FILE__), 'lock_server', 'views')
 
@@ -38,4 +38,4 @@ module Resque
 
   end
 end
-Resque::Server.register Resque::Server
+Resque::Server.register Resque::LockServer
