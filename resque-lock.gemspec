@@ -1,12 +1,6 @@
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'resque'
-require 'resque/lock/version'
-
-
 Gem::Specification.new do |s|
   s.name        = "resque-lock"
-  s.version     = Resque::Lock::VERSION
+  s.version     = '0.0.1'
   s.authors     = ["Shop2Market"]
   s.email       = "dev@shop2market.com"
   s.homepage    = "http://www.shop2market.com"
